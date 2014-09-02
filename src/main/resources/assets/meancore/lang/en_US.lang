@@ -1,0 +1,7 @@
+item.meancore:exampleItem.name=Example Item from ExampleMod
+
+tile.meancore:exampleBlock.name=Example Block from ExampleMod
+
+itemGroup.meancore=Example Mod
+itemGroup.meancore.item=Example Mod Items
+itemGroup.meancore.block=Example Mod Blocks
