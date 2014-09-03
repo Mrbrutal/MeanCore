@@ -1,6 +1,6 @@
 [
 {
-  "modid": "meanCore",
+  "modid": "meancore",
   "name": "MeanCore",
   "description": "Example placeholder mod.",
   "version": "${version}",

@@ -14,9 +14,9 @@ import net.minecraftforge.common.config.Configuration;
 import si.meansoft.meancore.common.config.ConfigHandler;
 import si.meansoft.meancore.common.library.InfoMC;
 
-public class GuiExampleConfig extends GuiConfig {
+public class GuiConfigMC extends GuiConfig {
 
-    public GuiExampleConfig(GuiScreen parentScreen) {
+    public GuiConfigMC(GuiScreen parentScreen) {
         super(parentScreen, new ConfigElement(ConfigHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), InfoMC.MODID, false, false, GuiConfig.getAbridgedConfigPath(ConfigHandler.config.toString()));
     }
 }
