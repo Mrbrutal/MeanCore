@@ -85,6 +85,10 @@ processResources {
     }
 }
 
+artifacts {
+    archives jar
+}
+
 uploadArchives {
     repositories {
         mavenLocal()
