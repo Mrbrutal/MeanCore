@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             name = "forge"
@@ -15,23 +16,32 @@ buildscript {
     }
 }
 
-project.ext.buildnumber = "CUSTOM_BUILD" // referenced as project.buildnumber
-
-if (System.getenv().BUILD_NUMBER) // assuming jenkins ofcourse
-{
-    project.buildnumber = System.getenv().BUILD_NUMBER
-    println "Using build number ${project.buildnumber}..."
-}
-else
-{
-    println "!! No build number set !!"
-}
-
 apply plugin: 'forge'
+apply plugin: 'maven'
 
-version = "1.7.2-1.0.0_"
 group= "si.meansoft.meancore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "MeanCore"
+
+/*
+ * Set the version number depending on the environment
+ * if BUILD_NUMBER is in the environment
+ *      {minecraft}-version.BUILD_NUMBER
+ * Else use
+ *      {minecraft}-version
+ */
+if (System.getenv("BUILD_NUMBER") != null) {
+    if(System.getenv("BUILD_NUMBER")<10) {
+        version = "${minecraft.version}-$version_00" + System.getenv("BUILD_NUMBER");
+    }
+    else if(System.getenv("BUILD_NUMBER")<100) {
+        version = "${minecraft.version}-$version_0" + System.getenv("BUILD_NUMBER");
+    }
+    else {
+        version = "${minecraft.version}-$version_" + System.getenv("BUILD_NUMBER");
+    }
+} else {
+    version = "${minecraft.version}-$version"
+}
 
 minecraft {
     version = "1.7.2-10.12.2.1147"
@@ -63,17 +73,11 @@ processResources {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version+project.buildnumber, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-    }
-}
-
-uploadArchives {
-    repositories {
-        add project.repositories.mavenLocal()
     }
 }
