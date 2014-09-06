@@ -27,15 +27,15 @@ apply plugin: 'maven'
  */
 if (System.getenv("BUILD_NUMBER") != null) {
     println("Build number: " + System.getenv("BUILD_NUMBER"));
-    if(System.getenv("BUILD_NUMBER")<10) {
+    /*if(System.getenv("BUILD_NUMBER")<10) {
         version = "1.7.2-1.0.0_00" + System.getenv("BUILD_NUMBER");
     }
     else if(System.getenv("BUILD_NUMBER")<100 && System.getenv("BUILD_NUMBER")>=10) {
         version = "1.7.2-1.0.0_0" + System.getenv("BUILD_NUMBER");
     }
-    else {
+    else {*/
         version = "1.7.2-1.0.0_" + System.getenv("BUILD_NUMBER");
-    }
+    //}
 } else {
     version = "1.7.2-1.0.0_000"
 }
