@@ -91,6 +91,8 @@ artifacts {
 
 uploadArchives {
     repositories {
-        mavenLocal()
+        mavenDeployer {
+            repository(url: "file://${System.env.HOME}/.m2/repository/")
+        }
     }
 }
