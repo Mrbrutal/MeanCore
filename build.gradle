@@ -84,3 +84,9 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+uploadArchives {
+    repositories {
+        mavenLocal()
+    }
+}
