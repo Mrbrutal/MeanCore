@@ -2,13 +2,13 @@
 {
   "modid": "meancore",
   "name": "MeanCore",
-  "description": "Example placeholder mod.",
+  "description": "Core mod for Mrbrutal's mods",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Mrbrutal"],
-  "credits": "The Forge and FML guys, for making this example",
+  "credits": "The Forge, FML and MCP guys, for making this possible",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

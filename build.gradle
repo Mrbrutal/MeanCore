@@ -15,10 +15,22 @@ buildscript {
     }
 }
 
+project.ext.buildnumber = "CUSTOM_BUILD" // referenced as project.buildnumber
+
+if (System.getenv().BUILD_NUMBER) // assuming jenkins ofcourse
+{
+    project.buildnumber = System.getenv().BUILD_NUMBER
+    println "Using build number ${project.buildnumber}..."
+}
+else
+{
+    println "!! No build number set !!"
+}
+
 apply plugin: 'forge'
 
-version = "1.7.2-1.0.0_000"
-group= "si.meansoft.meanCore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.7.2-1.0.0_"
+group= "si.meansoft.meancore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "MeanCore"
 
 minecraft {
@@ -39,11 +51,9 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -53,11 +63,17 @@ processResources
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version+project.buildnumber, 'mcversion':project.minecraft.version
     }
         
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+uploadArchives {
+    repositories {
+        add project.repositories.mavenLocal()
     }
 }
