@@ -27,13 +27,13 @@ apply plugin: 'maven'
  */
 if (System.getenv("BUILD_NUMBER") != null) {
     if(System.getenv("BUILD_NUMBER")<10) {
-        version = "1.7.2-$version_00" + System.getenv("BUILD_NUMBER");
+        version = "1.7.2-$version" + "_00" + System.getenv("BUILD_NUMBER");
     }
     else if(System.getenv("BUILD_NUMBER")<100) {
-        version = "1.7.2-$version_0" + System.getenv("BUILD_NUMBER");
+        version = "1.7.2-$version" + "_0" + System.getenv("BUILD_NUMBER");
     }
     else {
-        version = "1.7.2-$version_" + System.getenv("BUILD_NUMBER");
+        version = "1.7.2-$version" + "_" + System.getenv("BUILD_NUMBER");
     }
 } else {
     version = "1.7.2-$version"
