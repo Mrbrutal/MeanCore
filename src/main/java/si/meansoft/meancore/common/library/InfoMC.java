@@ -20,10 +20,9 @@ public class InfoMC {
     public static final String CLIENT_PROXY = "si.meansoft.meancore.proxy.ClientProxy";
     public static final String GUI_FACTORY = "si.meansoft.meancore.client.core.GuiFactory";
 
-    //TODO check and update version numbers for forge and FML
-    public static final String FML_REQ = "10.12.2.1147";
-    public static final String FML_REQ_MAX = "10.12.2.1147";
-    public static final String FORGE_REQ = "";
-    public static final String FORGE_REQ_MAX = "";
+    public static final String FML_REQ = "@FML@";
+    public static final String FML_REQ_MAX = "@FML-MAX@";
+    public static final String FORGE_REQ = "@FORGE@";
+    public static final String FORGE_REQ_MAX = "@FORGE-MAX@";
     public static final String DEPENDENCIES = "required-after:FML@[" + FML_REQ + "," + FML_REQ_MAX + ");" + "required-after:Forge@[" + FORGE_REQ + "," + FORGE_REQ_MAX + ");";
 }

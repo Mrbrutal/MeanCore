@@ -18,6 +18,15 @@ buildscript {
 apply plugin: 'forge'
 apply plugin: 'maven'
 
+ext.configFile = file "version.properties"
+
+configFile.withReader {
+    // Load config.  It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
 /*
  * Set the version number depending on the environment
  * if BUILD_NUMBER is in the environment
@@ -27,24 +36,35 @@ apply plugin: 'maven'
  */
 if (System.getenv("BUILD_NUMBER") != null) {
     println("Build number: " + System.getenv("BUILD_NUMBER"));
-    /*if(System.getenv("BUILD_NUMBER")<10) {
+    if(System.getenv("BUILD_NUMBER").toInteger()<10) {
         version = "1.7.2-1.0.0_00" + System.getenv("BUILD_NUMBER");
     }
-    else if(System.getenv("BUILD_NUMBER")<100 && System.getenv("BUILD_NUMBER")>=10) {
+    else if(System.getenv("BUILD_NUMBER").toInteger()<100 && System.getenv("BUILD_NUMBER").toInteger()>=10) {
         version = "1.7.2-1.0.0_0" + System.getenv("BUILD_NUMBER");
     }
-    else {*/
+    else {
         version = "1.7.2-1.0.0_" + System.getenv("BUILD_NUMBER");
-    //}
+    }
 } else {
     version = "1.7.2-1.0.0_000"
 }
-group= "si.meansoft.meancore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+println(version);
+group= "si.meansoft.meancore"
 archivesBaseName = "MeanCore"
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "${config.minecraft_version}-${config.forge_version}"
     assetDir = "run/assets"
+
+    replaceIn "common/library/InfoMC.java"
+    replace "@VERSION@", project.version
+    replace "@FML@", "${config.fml_version}"
+    replace "@FML-MAX@", "${config.fml_version}"
+    replace "@FORGE@", "${config.forge_version}"
+    replace "@FORGE-MAX@", "${config.forge_version}"
+    if (project.hasProperty("meancore_signature")) {
+        replace "@FINGERPRINT@", project.meancore_signature
+    }
 }
 
 repositories {
@@ -85,12 +105,67 @@ processResources {
     }
 }
 
-artifacts {
-    archives jar
+import net.minecraftforge.gradle.delayed.*
+import net.minecraftforge.gradle.tasks.dev.ChangelogTask
+
+task createChangelog(type: ChangelogTask) {
+
+    if (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password")) {
+        def jobName = "${System.getenv().JOB_NAME}"
+        def buildNumber = "${System.getenv().BUILD_NUMBER}"
+
+        setServerRoot(new DelayedString(project, project.jenkins_server))
+        setJobName(new DelayedString(project, jobName.toString()))
+        setAuthName(new DelayedString(project, project.jenkins_user))
+        setAuthPassword(new DelayedString(project, project.jenkins_password))
+        setTargetBuild({ buildNumber.toString() });
+        setOutput(new DelayedFile(project, 'build/libs/' + project.archivesBaseName + '-' + project.version + '-changelog.txt'));
+    }
+
+    onlyIf {
+        return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
+    }
 }
 
-uploadArchives {
-    repositories {
-        mavenLocal()
+tasks.build.dependsOn('createChangelog')
+/*tasks.build.dependsOn('signJar')
+
+if (!project.hasProperty("keystore_location")) // keystore stuff
+    ext.keystore_location = "."
+if (!project.hasProperty("keystore_password")) // keystore stuff
+    ext.keystore_password = ""
+if (!project.hasProperty("ee3_keystore_alias")) // keystore stuff
+    ext.ee3_keystore_alias = ""
+
+task signJar(dependsOn: ["reobf"]) {
+    inputs.dir jar.destinationDir
+    inputs.file keystore_location
+    inputs.property "meancore_keystore_alias", meancore_keystore_alias
+    inputs.property "keystore_password", keystore_password
+    outputs.dir devJar.destinationDir
+
+    // only sign if the keystore exists
+    onlyIf {
+        return keystore_location != "." && keystore_password != ""
     }
+    // the actual action.. sign the jar.
+    doLast {
+        jar.destinationDir.eachFile { file ->
+            if (!file.getPath().endsWith(".jar"))
+                return; // skip non-jars
+
+            logger.lifecycle "signing $file"
+            ant.signjar(
+                    destDir: file.getParentFile(), // same place it came from
+                    jar: file,
+                    keystore: keystore_location,
+                    alias: meancore_keystore_alias,
+                    storepass: keystore_password
+            )
+        }
+    }
+}*/
+
+artifacts {
+    archives jar
 }
