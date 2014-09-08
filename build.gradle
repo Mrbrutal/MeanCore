@@ -36,7 +36,9 @@ configFile.withReader {
  */
 if (System.getenv("BUILD_NUMBER") != null) {
     println("Build number: " + System.getenv("BUILD_NUMBER"));
-    println("User home: " + System.getenv("user.home"));
+    println("User home: " + System.getenv('user.home'));
+    println("User home: " + System.getProperty('user.home'));
+    println("Gradle home: " + System.getenv('GRADLE_USER_HOME'));
     if(System.getenv("BUILD_NUMBER").toInteger()<10) {
         version = "${config.minecraft_version}-${config.mod_version}_00" + System.getenv("BUILD_NUMBER");
     }
