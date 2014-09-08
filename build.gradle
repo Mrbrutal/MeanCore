@@ -37,16 +37,16 @@ configFile.withReader {
 if (System.getenv("BUILD_NUMBER") != null) {
     println("Build number: " + System.getenv("BUILD_NUMBER"));
     if(System.getenv("BUILD_NUMBER").toInteger()<10) {
-        version = "1.7.2-1.0.0_00" + System.getenv("BUILD_NUMBER");
+        version = "${config.minecraft_version}-${config.mod_version}_00" + System.getenv("BUILD_NUMBER");
     }
     else if(System.getenv("BUILD_NUMBER").toInteger()<100 && System.getenv("BUILD_NUMBER").toInteger()>=10) {
-        version = "1.7.2-1.0.0_0" + System.getenv("BUILD_NUMBER");
+        version = "${config.minecraft_version}-${config.mod_version}_0" + System.getenv("BUILD_NUMBER");
     }
     else {
-        version = "1.7.2-1.0.0_" + System.getenv("BUILD_NUMBER");
+        version = "${config.minecraft_version}-${config.mod_version}_" + System.getenv("BUILD_NUMBER");
     }
 } else {
-    version = "1.7.2-1.0.0_000"
+    version = "${config.minecraft_version}-${config.mod_version}_000"
 }
 println(version);
 group= "si.meansoft.meancore"
@@ -109,7 +109,7 @@ import net.minecraftforge.gradle.delayed.*
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
 
 task createChangelog(type: ChangelogTask) {
-
+    println("Changelog task starting!");
     if (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password")) {
         def jobName = "${System.getenv().JOB_NAME}"
         def buildNumber = "${System.getenv().BUILD_NUMBER}"
@@ -164,8 +164,8 @@ task signJar(dependsOn: ["reobf"]) {
             )
         }
     }
-}*/
+}
 
 artifacts {
     archives jar
-}
+}*/
