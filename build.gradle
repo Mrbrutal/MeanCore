@@ -114,6 +114,8 @@ task createChangelog(type: ChangelogTask) {
         def jobName = "${System.getenv().JOB_NAME}"
         def buildNumber = "${System.getenv().BUILD_NUMBER}"
 
+        println("Changelog: " + jobName + " " + buildNumber);
+
         setServerRoot(new DelayedString(project, project.jenkins_server))
         setJobName(new DelayedString(project, jobName.toString()))
         setAuthName(new DelayedString(project, project.jenkins_user))
