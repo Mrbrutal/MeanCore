@@ -145,6 +145,8 @@ task signJar(dependsOn: ["reobf"]) {
     inputs.property "meancore_keystore_alias", meancore_keystore_alias
     inputs.property "keystore_password", keystore_password
 
+    println("Keystore location: " + keystore_location);
+
     // only sign if the keystore exists
     onlyIf {
         return keystore_location != "." && keystore_password != ""
@@ -156,6 +158,7 @@ task signJar(dependsOn: ["reobf"]) {
                 return; // skip non-jars
 
             logger.lifecycle "signing $file"
+            println("File location: " + file.getParentFile());
             ant.signjar(
                     destDir: file.getParentFile(), // same place it came from
                     jar: file,
