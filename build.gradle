@@ -35,10 +35,10 @@ configFile.withReader {
  *      {minecraft}-version
  */
 if (System.getenv("BUILD_NUMBER") != null) {
-    println("Build number: " + System.getenv("BUILD_NUMBER"));
+    /*println("Build number: " + System.getenv("BUILD_NUMBER"));
     println("User home: " + System.getenv('user.home'));
     println("User home: " + System.getProperty('user.home'));
-    println("Gradle home: " + System.getenv('GRADLE_USER_HOME'));
+    println("Gradle home: " + System.getenv('GRADLE_USER_HOME'));*/
     if(System.getenv("BUILD_NUMBER").toInteger()<10) {
         version = "${config.minecraft_version}-${config.mod_version}_00" + System.getenv("BUILD_NUMBER");
     }
@@ -112,12 +112,9 @@ import net.minecraftforge.gradle.delayed.*
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
 
 task createChangelog(type: ChangelogTask) {
-    println("Changelog task starting!");
     if (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password")) {
         def jobName = "${System.getenv().JOB_NAME}"
         def buildNumber = "${System.getenv().BUILD_NUMBER}"
-
-        println("Changelog: " + jobName + " " + buildNumber);
 
         setServerRoot(new DelayedString(project, project.jenkins_server))
         setJobName(new DelayedString(project, jobName.toString()))
@@ -133,13 +130,13 @@ task createChangelog(type: ChangelogTask) {
 }
 
 tasks.build.dependsOn('createChangelog')
-/*tasks.build.dependsOn('signJar')
+tasks.build.dependsOn('signJar')
 
 if (!project.hasProperty("keystore_location")) // keystore stuff
     ext.keystore_location = "."
 if (!project.hasProperty("keystore_password")) // keystore stuff
     ext.keystore_password = ""
-if (!project.hasProperty("ee3_keystore_alias")) // keystore stuff
+if (!project.hasProperty("meancore_keystore_alias")) // keystore stuff
     ext.ee3_keystore_alias = ""
 
 task signJar(dependsOn: ["reobf"]) {
@@ -173,4 +170,4 @@ task signJar(dependsOn: ["reobf"]) {
 
 artifacts {
     archives jar
-}*/
+}
