@@ -144,7 +144,6 @@ task signJar(dependsOn: ["reobf"]) {
     inputs.file keystore_location
     inputs.property "meancore_keystore_alias", meancore_keystore_alias
     inputs.property "keystore_password", keystore_password
-    outputs.dir devJar.destinationDir
 
     // only sign if the keystore exists
     onlyIf {
