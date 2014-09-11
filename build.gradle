@@ -141,20 +141,15 @@ task signJar(dependsOn: 'reobf') {
     }
     // the actual action.. sign the jar.
     doLast {
-        jar.destinationDir.eachFile { file ->
-            if (!file.getPath().endsWith(".jar"))
-                return; // skip non-jars
-
-            logger.lifecycle "signing $file"
-            println("File location: " + file.getParentFile());
-            ant.signjar(
-                    destDir: file.getParentFile(), // same place it came from
-                    jar: file,
-                    keystore: project.keystore_location,
-                    alias: project.meancore_keystore_alias,
-                    storepass: project.keystore_password
-            )
-        }
+        logger.lifecycle "signing $file"
+        println("File location: " + jar.getParentFile());
+        ant.signjar(
+                destDir: jar.destinationDir, // same place it came from
+                jar: jar.getArchivePath(),
+                keystore: project.keystore_location,
+                alias: project.meancore_keystore_alias,
+                storepass: project.keystore_password
+        )
     }
 }
 
