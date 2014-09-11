@@ -135,20 +135,16 @@ tasks.build.dependsOn('signJar')
 task signJar(dependsOn: 'reobf') {
     println("Keystore location: " + project.keystore_location);
 
-    // only sign if the keystore exists
-    onlyIf {
-        return project.keystore_location != "." && project.keystore_password != ""
-    }
     // the actual action.. sign the jar.
     doLast {
-        logger.lifecycle "signing $file"
-        println("File location: " + jar.getParentFile());
+        logger.lifecycle "signing $jar"
+        println("File location: " + jar.destinationDir + " Archive: " + jar.getArchivePath());
         ant.signjar(
-                destDir: jar.destinationDir, // same place it came from
-                jar: jar.getArchivePath(),
-                keystore: project.keystore_location,
-                alias: project.meancore_keystore_alias,
-                storepass: project.keystore_password
+            destDir: jar.destinationDir, // same place it came from
+            jar: jar.getArchivePath(),
+            keystore: project.keystore_location,
+            alias: project.meancore_keystore_alias,
+            storepass: project.keystore_password
         )
     }
 }
