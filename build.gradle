@@ -148,7 +148,7 @@ task signJar(dependsOn: 'reobf') {
             logger.lifecycle "signing $file"
             println("File location: " + file.getParentFile());
             ant.signjar(
-                    destDir: file.getParentFile()+'/signed', // same place it came from
+                    destDir: file.getParentFile(), // same place it came from
                     jar: file,
                     keystore: project.keystore_location,
                     alias: project.meancore_keystore_alias,
