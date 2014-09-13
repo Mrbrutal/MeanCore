@@ -35,10 +35,6 @@ configFile.withReader {
  *      {minecraft}-version
  */
 if (System.getenv("BUILD_NUMBER") != null) {
-    /*println("Build number: " + System.getenv("BUILD_NUMBER"));
-    println("User home: " + System.getenv('user.home'));
-    println("User home: " + System.getProperty('user.home'));
-    println("Gradle home: " + System.getenv('GRADLE_USER_HOME'));*/
     if(System.getenv("BUILD_NUMBER").toInteger()<10) {
         version = "${config.minecraft_version}-${config.mod_version}_00" + System.getenv("BUILD_NUMBER");
     }
@@ -133,17 +129,14 @@ tasks.build.dependsOn('createChangelog')
 tasks.build.dependsOn('signJar')
 
 task signJar(dependsOn: 'reobf') {
-    println("Keystore location: " + project.keystore_location);
-
     // the actual action.. sign the jar.
     doLast {
         logger.lifecycle "signing $jar"
-        println("File location: " + jar.destinationDir + " Archive: " + jar.getArchivePath());
         ant.signjar(
             destDir: jar.destinationDir, // same place it came from
             jar: jar.getArchivePath(),
-            keystore: project.keystore_location,
-            alias: project.meancore_keystore_alias,
+            keystore: project.meancore_keystore_location,
+            alias: project.keystore_alias,
             storepass: project.keystore_password
         )
     }

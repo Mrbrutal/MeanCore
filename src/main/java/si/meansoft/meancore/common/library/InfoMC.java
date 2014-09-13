@@ -10,7 +10,7 @@ package si.meansoft.meancore.common.library;
 public class InfoMC {
 
     public static final String MOD = "MC";
-    public static final String MODID = "meancore";
+    public static final String MODID = "MCore";
     public static final String MODNAME = "MeanCore";
 
     public static final String FINGERPRINT = "@FINGERPRINT@";
