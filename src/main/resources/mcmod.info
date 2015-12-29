@@ -1,15 +1,15 @@
 [
 {
-  "modid": "meancore",
+  "modid": "MCore",
   "name": "MeanCore",
   "description": "Core mod for Mrbrutal's mods",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "url": "http://meansoft.si",
+  "updateUrl": "http://files.meansoft.si",
   "authorList": ["Mrbrutal"],
   "credits": "The Forge, FML and MCP guys, for making this possible",
-  "logoFile": "",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }

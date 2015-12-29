@@ -14,7 +14,7 @@ import si.meansoft.meancore.common.handler.BlockHandler;
 
 public enum MCBlocks {
 
-    exampleBlock(BlockExample.class);
+    ;//exampleBlock(BlockExample.class);
 
     public Block block = null;
     private BlockHandler handler = null;

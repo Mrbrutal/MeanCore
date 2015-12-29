@@ -42,13 +42,15 @@ Thumbs.db
 #################
 *.war
 *.ear
+*.iml
+*.ipr
+*.iws
 
 # Files #
 #########
 .metadata
 .classpath
 .project
-.idea
 .codepro/deadCodeEntryPoints.xml
 .gradle
 build/

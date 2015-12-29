@@ -11,21 +11,17 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import si.meansoft.meancore.common.block.EMBlockInit;
 import si.meansoft.meancore.common.config.ConfigHandler;
-import si.meansoft.meancore.common.config.ConfigMC;
-import si.meansoft.meancore.common.creativetab.TabsMC;
 import si.meansoft.meancore.common.item.EMItemInit;
-import si.meansoft.meancore.common.library.InfoMC;
 
 public class PreInit {
 
     public void init(FMLPreInitializationEvent evt) {
         //Localize tests TODO remove
-        System.out.println("MC: " + evt.getModConfigurationDirectory());
+        System.out.println("MC: " + evt.getModConfigurationDirectory() + " : " + evt.getSuggestedConfigurationFile());
         Localize.init("en_US");
 
-        ConfigHandler.init(evt.getSuggestedConfigurationFile(), InfoMC.MODID);
-        FMLCommonHandler.instance().bus().register(new ConfigMC());
-        ConfigMC.init();
+        ConfigHandler.init(evt.getSuggestedConfigurationFile());
+        FMLCommonHandler.instance().bus().register(new ConfigHandler());
 
         EMItemInit.init();
         EMBlockInit.init();

@@ -27,6 +27,7 @@ public class MeanCore {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent evt) {
+        System.out.println("MC-0: " + evt.getSuggestedConfigurationFile());
         PreInit pi = new PreInit();
         pi.init(evt);
     }
